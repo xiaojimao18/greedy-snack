@@ -2,7 +2,7 @@
     var game = {},
         food = null,
         snack = null,
-        interval = null,
+        timeout = null,
         score = 0,
         status = '',
         scoreText = document.getElementById('score'),
@@ -20,7 +20,7 @@
         food  = food == null ? new Food() : food;
         snack = snack == null ? new Snack() : snack;
 
-        interval = setInterval(function action() {
+        timeout = setTimeout(function action() {
             if (!snack.move()) {
                 _this.fail();
             } else {
@@ -28,20 +28,21 @@
                     _this.addScore(food.score);
                     food = new Food();
                 }
+                timeout = setTimeout(action, 200 / config.getSpeed());
             }
         }, 200 / config.getSpeed());
     };
     game.pause = function() {
         status = 'pause';
         controller.innerHTML = "继续";
-        clearInterval(interval);
+        clearTimeout(timeout);
     };
     game.continue = function() {
         var _this = this;
 
         status = 'start';
         controller.innerHTML = "暂停";
-        interval = setInterval(function() {
+        timeout = setInterval(function() {
             if (!snack.move()) {
                 _this.fail();
             } else {
@@ -49,16 +50,17 @@
                     _this.addScore(food.score);
                     food = new Food();
                 }
+                timeout = setTimeout(action, 200 / config.getSpeed());
             }
         }, 200 / config.getSpeed());
     };
     game.fail = function() {
-        clearInterval(interval);
         status = 'fail';
+        controller.innerHTML = "再来一局";
     };
     game.succ = function() {
-        clearInterval(interval);
         status = 'success';
+        controller.innerHTML = "再来一局";
     };
     game.addScore = function(_score) {
         score += _score
@@ -68,10 +70,11 @@
         }
     };
     game.reset = function() {
-        config.context.clearRect(0, 0, config.getWidth() * config.getSize(), config.getHeight() * config.getSize());
-        controller.innerHTML = "再来一局";
+        score = 0;
+        scoreText.innerHTML = score;
         food = null;
         snack = null;
+        config.context.clearRect(0, 0, config.getWidth() * config.getSize(), config.getHeight() * config.getSize());
     };
 
     // 按键调整方向
