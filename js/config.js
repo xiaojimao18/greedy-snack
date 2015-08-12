@@ -37,6 +37,9 @@
     config.getSize = function() {
         return size;
     };
+    config.resetSpeed = function() {
+        speed = 1;
+    }
 
     window.config = config;
 }();
