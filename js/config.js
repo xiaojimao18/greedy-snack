@@ -19,17 +19,16 @@ var config = {
     // 触摸调整方向
     var StartX = null,
         StartY = null,
-        dirTimeout = null;
-    function touchDirection(e) {
+        oneTouch = false;   // 是否是同一次move
+    function touchStart(e) {
+        StartX = e.targetTouches[0].pageX;
+        StartY = e.targetTouches[0].pageY;
+        oneTouch = true;
+    }
+    function touchMove(e) {
         e.preventDefault();
-        if (dirTimeout == null) {
-            StartX = e.targetTouches[0].pageX;
-            StartY = e.targetTouches[0].pageY;
-        } else {
-            clearTimeout(dirTimeout);
-        }
 
-        dirTimeout = setTimeout(function() {
+        if (oneTouch) {
             var xMove = e.targetTouches[0].pageX - StartX,
                 yMove = e.targetTouches[0].pageY - StartY;
             if (Math.abs(xMove) < Math.abs(yMove) && yMove < 0) { // 向上
@@ -40,9 +39,10 @@ var config = {
                 snack.pushDirection(2);
             } else { // 向左
                 snack.pushDirection(3);
-            }
-            dirTimeout = null;
-        }, 60);
+            } 
+            oneTouch = false;
+        }
+
     }
 
     // 绑定开始事件
@@ -61,7 +61,8 @@ var config = {
         }
     }
 
+    document.body.addEventListener("touchmove", touchMove, false);
+    document.body.addEventListener("touchstart", touchStart, false);
     document.body.addEventListener("keydown", keyDirection, false);
-    document.body.addEventListener("touchmove", touchDirection, false);
     document.getElementById('controller').addEventListener("click", startControl, false);
 }();
