@@ -3,6 +3,12 @@
 ##介绍
 贪食蛇小游戏，童年经典~
 
+游戏试玩：[点击这里](http://xiaojimao18.github.io/greedy-snack)
+
+二维码地址
+
+![二维码](img/2.png)
+
 ##历史版本
 
 ### v1.2.0
