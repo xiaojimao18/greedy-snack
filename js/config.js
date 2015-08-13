@@ -1,45 +1,67 @@
-!function() {
-    var config = {},
-        width = 30,
-        height = 30,
-        speed = 1,
-        size = 10;
+var config = {
+    size: 13,
+    width: 20,
+    height: 20,
+    context: null
+};
 
-    config.init = function() {
-        var gameZone = document.getElementById("game-zone");
-        if (!gameZone.getContext) {
-            // 环境不支持游戏
-            alert('您的浏览器版本太低，请您使用更高级的浏览器来运行');
-            return;
-        } else {
-            this.context = gameZone.getContext("2d");
+!function() {
+    // 按键调整方向
+    function keyDirection(e) {
+        switch(e.keyCode) {
+            case 38: snack.pushDirection(0); break; // 向上
+            case 39: snack.pushDirection(1); break; // 向右
+            case 40: snack.pushDirection(2); break; // 向下
+            case 37: snack.pushDirection(3); break; // 向左
         }
-    };
-    config.speedup = function() {
-        if (speed < 5){
-            speed ++;
-        }
-    };
-    config.speeddown = function() {
-        if (speed > 1) {
-            speed --;
-        }
-    };
-    config.getSpeed = function() {
-        return speed;
-    };
-    config.getWidth = function() {
-        return width;
-    };
-    config.getHeight = function() {
-        return height;
-    };
-    config.getSize = function() {
-        return size;
-    };
-    config.resetSpeed = function() {
-        speed = 1;
     }
 
-    window.config = config;
+    // 触摸调整方向
+    var StartX = null,
+        StartY = null,
+        dirTimeout = null;
+    function touchDirection(e) {
+        e.preventDefault();
+        if (dirTimeout == null) {
+            StartX = e.targetTouches[0].pageX;
+            StartY = e.targetTouches[0].pageY;
+        } else {
+            clearTimeout(dirTimeout);
+        }
+
+        dirTimeout = setTimeout(function() {
+            var xMove = e.targetTouches[0].pageX - StartX,
+                yMove = e.targetTouches[0].pageY - StartY;
+            if (Math.abs(xMove) < Math.abs(yMove) && yMove < 0) { // 向上
+                snack.pushDirection(0);
+            } else if (Math.abs(xMove) > Math.abs(yMove) && xMove > 0) { // 向右
+                snack.pushDirection(1);
+            } else if (Math.abs(xMove) < Math.abs(yMove) && yMove > 0) { // 向下
+                snack.pushDirection(2);
+            } else { // 向左
+                snack.pushDirection(3);
+            }
+            dirTimeout = null;
+        }, 60);
+    }
+
+    // 绑定开始事件
+    function startControl() {
+        var status = game.getStatus();
+        
+        if (status == '' || status == 'pause') {
+            // 第一次开始
+            game.start();
+        } else if (status == 'fail' || status == 'success') {
+            // 并不是第一次，清除上一次记录再开始
+            game.reset();
+            game.start();
+        } else if (status == 'start') {
+            game.pause();
+        }
+    }
+
+    document.body.addEventListener("keydown", keyDirection, false);
+    document.body.addEventListener("touchmove", touchDirection, false);
+    document.getElementById('controller').addEventListener("click", startControl, false);
 }();
