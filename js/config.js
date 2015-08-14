@@ -17,35 +17,34 @@ var config = {
     }
 
     // 触摸调整方向
-    var StartX = null,
-        StartY = null,
+    var startX = null,
+        startY = null,
         oneTouch = false;   // 是否是同一次move
     function touchStart(e) {
-        StartX = e.targetTouches[0].pageX;
-        StartY = e.targetTouches[0].pageY;
+        startX = e.targetTouches[0].pageX;
+        startY = e.targetTouches[0].pageY;
         oneTouch = true;
     }
     function touchMove(e) {
         e.preventDefault();
 
         if (oneTouch) {
-            var xMove = e.targetTouches[0].pageX - StartX,
-                yMove = e.targetTouches[0].pageY - StartY;
-            if (Math.abs(xMove) < Math.abs(yMove) && yMove < 0) { // 向上
+            var moveX = e.targetTouches[0].pageX - startX,
+                moveY = e.targetTouches[0].pageY - startY;
+            if (Math.abs(moveX) < Math.abs(moveY) && moveY < 0) { // 向上
                 snack.pushDirection(0);
-            } else if (Math.abs(xMove) > Math.abs(yMove) && xMove > 0) { // 向右
+            } else if (Math.abs(moveX) > Math.abs(moveY) && moveX > 0) { // 向右
                 snack.pushDirection(1);
-            } else if (Math.abs(xMove) < Math.abs(yMove) && yMove > 0) { // 向下
+            } else if (Math.abs(moveX) < Math.abs(moveY) && moveY > 0) { // 向下
                 snack.pushDirection(2);
             } else { // 向左
                 snack.pushDirection(3);
             } 
             oneTouch = false;
         }
-
     }
 
-    // 绑定开始事件
+    // 开始按钮事件
     function startControl() {
         var status = game.getStatus();
         

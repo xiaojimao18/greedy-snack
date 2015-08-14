@@ -53,12 +53,18 @@
     game.fail = function() {
         status = 'fail';
         controller.innerHTML = "再来一局";
+        
+        this.showInfo("你输啦");
     };
     game.succ = function() {
         status = 'success';
         controller.innerHTML = "再来一局";
+        
+        this.showInfo("你赢啦");
     };
     game.reset = function() {
+        this.hideInfo();
+        
         score = 0;
         scoreText.innerHTML = score;
         config.context.clearRect(0, 0, config.width * config.size, config.height * config.size);
@@ -69,7 +75,17 @@
     };
     game.getStatus = function() {
         return status;
-    }
+    };
+    game.showInfo = function(text) {
+        var info = document.getElementById("result");
+        
+        info.innerHTML = text;
+        info.style.opacity = "1";
+    };
+    game.hideInfo = function() {
+        var info = document.getElementById("result");
+        info.style.opacity = "0";
+    };
 
     window.game = game;
 }();

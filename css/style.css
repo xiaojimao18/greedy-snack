@@ -3,7 +3,9 @@ html,body,ul,li,div,span {
     padding: 0;
 }
 
-body {
+html, body {
+    width: 100%;
+    height: 100%;
     background-color: #faf8ef;
 }
 
@@ -27,15 +29,15 @@ body {
     text-align: center;
     vertical-align: middle;
     border-radius: 2px;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
     overflow: hidden;
     cursor: pointer;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
     will-change: box-shadow, transform;
-    -webkit-transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
     transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
+    -webkit-transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1), background-color .2s cubic-bezier(.4, 0, .2, 1), color .2s cubic-bezier(.4, 0, .2, 1);
 }
 
 #score {
@@ -47,10 +49,31 @@ body {
     color: #6699CC;
     text-align: right;
     vertical-align: middle;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 30px;
     line-height: 36px;
     font-weight: 500;
+}
+
+#result {
+    position: absolute;
+    left: 50%;
+    top: 180px;
+    transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+    width: 180px;
+    height: 60px;
+    font-size: 30px;
+    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+    line-height: 60px;
+    text-align: center;
+    color: #6699CC;
+    background-color: #E8D098;
+    border-radius: 10px;
+    transition: 0.8s opacity ease;
+    opacity: 0;
+    overflow: hidden;
 }
 
 #game-zone {
