@@ -72,6 +72,7 @@ html, body {
     background-color: #E8D098;
     border-radius: 10px;
     transition: 0.8s opacity ease;
+    -webkit-transition: 0.8s opacity ease;
     opacity: 0;
     overflow: hidden;
 }
